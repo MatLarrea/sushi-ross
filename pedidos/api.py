@@ -5,4 +5,4 @@ from server.serializers import PedidoSerializer
 class ProjectDefaultView(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()
     permission_classes = [permissions.AllowAny]
-    serializer_class = PedidoSerializer
+    serializer_class = PedidoSerializer 
