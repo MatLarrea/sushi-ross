@@ -72,4 +72,3 @@ class PedidoSerializer(serializers.ModelSerializer):
 
         return pedido
 
-        

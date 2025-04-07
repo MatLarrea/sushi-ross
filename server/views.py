@@ -6,6 +6,7 @@ from .serializers import productoSerializers, IngredienteSerializer, productoUpd
 from inventario.models import Producto, Ingrediente
 from pedidos.models import Pedido
 
+
 # INVENTARIO
 @api_view(['POST'])
 def addIngrediente(request):
