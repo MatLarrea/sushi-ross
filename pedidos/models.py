@@ -15,15 +15,6 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='pedidos'
     )
-    fecha = models.DateTimeField(auto_now_add=True)
-
-    @property
-    def total(self):
-        return sum(
-            detalle.producto.precio * detalle.cantidad
-            for detalle in self.detallepedido_set.all()
-        )
-
     fecha = models.DateField(auto_now_add=True)
     delivery = models.ForeignKey(
         User, 
@@ -38,7 +29,10 @@ class Pedido(models.Model):
     
     @property
     def total(self):
-        return sum(producto.precio for producto in self.productos.all())
+        return sum(
+            detalle.producto.precio * detalle.cantidad
+            for detalle in self.detalle_pedido.all()
+        )
 
     def __str__(self):
         return f"Pedido {self.id} de {self.usuario.username} - Total: {self.total}"
