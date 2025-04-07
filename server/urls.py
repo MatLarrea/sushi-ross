@@ -19,7 +19,7 @@ from django.urls import path
 from .views import addProducto, addIngrediente, getProductos, getProducto, getIngredientes, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, addPedido, deletePedido, getPedidos
 
 urlpatterns = [
-    path('', admin.site.urls),
+    path('admin', admin.site.urls),
     path('addProduct/', addProducto),
     path('addIngredient/', addIngrediente),
     path('Products/', getProductos),
