@@ -16,6 +16,7 @@ class Pedido(models.Model):
         User, on_delete=models.CASCADE, related_name='pedidos'
     )
     fecha = models.DateField(auto_now_add=True)
+    direccion = models.TextField(max_length=200, default="RETIRO LOCAL")
     delivery = models.ForeignKey(
         User, 
         on_delete=models.SET_NULL,  

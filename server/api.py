@@ -1,4 +1,4 @@
-from .models import Pedido
+from pedidos.models import Pedido
 from rest_framework import viewsets, permissions
 from server.serializers import PedidoSerializer
 

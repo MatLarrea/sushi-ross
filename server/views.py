@@ -2,10 +2,16 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import productoSerializers, IngredienteSerializer, productoUpdateSerializers, PedidoSerializer, productoAddSerializers
-from inventario.models import Producto, Ingrediente
+from rest_framework import viewsets, permissions
+from .serializers import productoSerializers, IngredienteSerializer, productoUpdateSerializers, PedidoSerializer, productoAddSerializers, inventarioSerializers, InsumoSerializer
+from inventario.models import Producto, Ingrediente, Inventario, Insumo
 from pedidos.models import Pedido
 
+
+class ProjectDefaultView(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = PedidoSerializer 
 
 # INVENTARIO
 @api_view(['POST'])
@@ -123,3 +129,16 @@ def deletePedido(request, id):
         return  Response({"mensaje": f"Error al eliminar {pedido}"})
     
     return  Response({"mensaje": f"Producto eliminado correctamente: {pedido}"})
+
+class InventarioViewSet(viewsets.ModelViewSet):
+    queryset = Inventario.objects.all()
+    serializer_class = inventarioSerializers
+    permission_classes = [permissions.AllowAny]
+    
+    
+class InsumoViewSet(viewsets.ModelViewSet):
+    queryset = Insumo.objects.all()
+    serializer_class = InsumoSerializer
+    permission_classes = [permissions.AllowAny]
+    
+    

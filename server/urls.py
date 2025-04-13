@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import addProducto, addIngrediente, getProductos, getProducto, getIngredientes, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, addPedido, deletePedido, getPedidos
+from .views import addProducto, addIngrediente, getProductos, getProducto, getIngredientes, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, addPedido, deletePedido, getPedidos, ProjectDefaultView, InventarioViewSet, Insumo
+from .routers import ruoter
 
 urlpatterns = [
-    path('', include('pedidos.urls')),
+    path('Sushiross/', ProjectDefaultView.as_view({'get': 'list'})),
     path('admin', admin.site.urls),
     path('addProduct/', addProducto),
     path('addIngredient/', addIngrediente),
@@ -33,4 +34,8 @@ urlpatterns = [
     path('Orders/', getPedidos),
     path('Orders/Generate/', addPedido),
     path('Orders/Delete/<uuid:id>', deletePedido, name='deletePedido'),
+    path('', include(ruoter.urls)),
 ]
+
+
+
