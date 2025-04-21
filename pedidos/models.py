@@ -1,7 +1,7 @@
 from django.db import models
 from inventario.models import Producto
 #from users.models import User
-from django.contrib.auth.models import User
+from users.models import User
 import uuid
 
 # Create your models here.
