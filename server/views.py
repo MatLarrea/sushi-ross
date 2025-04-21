@@ -45,8 +45,7 @@ def register(request):
     
     try:
         if serializer.is_valid():
-            serializer.save()
-            
+            user = serializer.save(commit=False)
             user = User.objects.get(email=serializer.data['email'])
             user.is_active = True
             user.set_password(serializer.data['password'])
@@ -56,6 +55,8 @@ def register(request):
                 user.is_staff = False
             user.save()
             
+            # Verificar que el usuario existe antes de generar el token
+            user = User.objects.get(email=user.email)
             token, created = Token.objects.get_or_create(user=user)
             return Response({'user': serializer.data, 'token': token.key}, status=status.HTTP_201_CREATED)
     except Exception as e:
