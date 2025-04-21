@@ -43,21 +43,23 @@ def login(request):
 def register(request):
     serializer = UserSerializer(data = request.data)
     
-    if serializer.is_valid():
-        serializer.save()
-        
-        user = User.objects.get(email=serializer.data['email'])
-        user.is_active = True
-        user.set_password(serializer.data['password'])
-        if str(serializer.data['role']).lower() == "administrador":
-            user.is_staff = True
-        else:
-            user.is_staff = False
-        user.save()
-        
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'user': serializer.data, 'token': token.key}, status=status.HTTP_201_CREATED)
-        
+    try:
+        if serializer.is_valid():
+            serializer.save()
+            
+            user = User.objects.get(email=serializer.data['email'])
+            user.is_active = True
+            user.set_password(serializer.data['password'])
+            if str(serializer.data['role']).lower() == "administrador":
+                user.is_staff = True
+            else:
+                user.is_staff = False
+            user.save()
+            
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'user': serializer.data, 'token': token.key}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
