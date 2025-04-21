@@ -55,7 +55,8 @@ def register(request):
             user.is_staff = False
         user.save()
         
-        return Response({'user':serializer.data}, status=status.HTTP_201_CREATED)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'user': serializer.data, 'token': token.key}, status=status.HTTP_201_CREATED)
         
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
