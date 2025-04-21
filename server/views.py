@@ -45,7 +45,7 @@ def register(request):
     
     try:
         if serializer.is_valid():
-            user = serializer.save(commit=False)
+            user = serializer.save()
             user = User.objects.get(email=serializer.data['email'])
             user.is_active = True
             user.set_password(serializer.data['password'])
