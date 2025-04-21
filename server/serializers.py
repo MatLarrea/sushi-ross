@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from inventario.models import Producto, Ingrediente, Inventario, Insumo
 from pedidos.models import Pedido, DetallePedido
-from django.contrib.auth.models import User
+from users.models import User
 
 #Inventario
 class IngredienteSerializer(serializers.ModelSerializer):
@@ -101,3 +101,8 @@ class PedidoSerializer(serializers.ModelSerializer):
 
         return pedido
 
+#Usuario
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id","name", "lastname", "cellphone", "email", "password", "role"]
