@@ -47,9 +47,12 @@ def register(request):
         serializer.save()
         
         user = User.objects.get(email=serializer.data['email'])
+        user.is_active = True
         user.set_password(serializer.data['password'])
         if str(serializer.data['role']).lower() == "administrador":
             user.is_staff = True
+        else:
+            user.is_staff = False
         user.save()
         
         token = Token.objects.create(user=user)
