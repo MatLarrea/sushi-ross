@@ -33,7 +33,10 @@ class Producto(models.Model):
                                             ('GOHAN', 'gohan'),
                                         ])
     disponible = models.BooleanField(default=True)
-    
+    creado_por = models.CharField(max_length=50, blank=False, null=False, choices=[
+        ("CLIENTE","cliente"),
+        ("SISTEMA","sistema")
+    ])
     def __str__(self):
         return self.nombre
 

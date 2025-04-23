@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default="Chile",
     )
     date_joined = models.DateTimeField(gettext_lazy("date joined"), auto_now_add=True)
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, primary_key=True)
     is_staff = models.BooleanField(
         gettext_lazy("staff status"),
         default=False,
@@ -78,3 +78,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.full_name
+    
+    
+class Cliente(models.Model):
+    nombre = models.CharField(
+        gettext_lazy("first name"), max_length=30, blank=False, null=False
+    )
+    apellido = models.CharField(
+        gettext_lazy("last name"), max_length=30, blank=False, null=False
+    )
+    telefono = models.CharField(
+        gettext_lazy("cellphone"), max_length=10, blank=False, null=False, unique=True
+    )
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, primary_key=True)
+    direccion = models.TextField(max_length=200, blank=True)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
