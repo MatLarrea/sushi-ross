@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import addProducto, addIngrediente, api_overview, getProductos, getProducto, getIngredientes, login, profile, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, addPedido, deletePedido, getPedidos, ProjectDefaultView, register
+from .views import addProducto, addIngrediente, api_overview, getProductos, getProducto, getIngredientes, login, profile, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, ProjectDefaultView, register
 from .routers import ruoter
 
 urlpatterns = [
@@ -31,9 +31,6 @@ urlpatterns = [
     path('Ingredients/Update/<str:nombre>/', updateIngrediente, name='updateIngrediente'),
     path('Products/Delete/<str:nombre>/', deleteProducto, name='deleteProducto'),
     path('Ingredients/Delete/<str:nombre>/', deleteIngrediente, name='deleteIngrediente'),
-    path('Orders/', getPedidos),
-    path('Orders/Generate/', addPedido),
-    path('Orders/Delete/<uuid:id>', deletePedido, name='deletePedido'),
     path('users/register/', register, name='register'),
     path('users/login/', login, name='login'),
     path('users/profile/', profile, name='profile'),
@@ -42,4 +39,7 @@ urlpatterns = [
 ]
 
 
-
+    #  addPedido, deletePedido, getPedidos,
+    # path('Orders/', getPedidos),
+    # path('Orders/Generate/', addPedido),
+    # path('Orders/Delete/<uuid:id>', deletePedido, name='deletePedido'),

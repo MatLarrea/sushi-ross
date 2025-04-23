@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from inventario.models import Producto, Ingrediente, Inventario, Insumo
 from pedidos.models import Pedido, DetallePedido
-from users.models import User
+from users.models import User, Cliente
 
 #Inventario
 class IngredienteSerializer(serializers.ModelSerializer):
@@ -9,19 +9,13 @@ class IngredienteSerializer(serializers.ModelSerializer):
         model = Ingrediente
         fields = ['id','nombre', 'disponible']
         
-class productoUpdateSerializers(serializers.ModelSerializer):
+        
+class productoSerializers(serializers.ModelSerializer):
     ingredientes = serializers.PrimaryKeyRelatedField(many=True, queryset=Ingrediente.objects.all())
-    
+    creado_por = serializers.CharField(required=True)
     class Meta:
         model = Producto
-        fields = ['id','nombre', 'descripcion', 'categoria', 'ingredientes', 'disponible']
-
-class productoAddSerializers(serializers.ModelSerializer):
-    ingredientes = serializers.PrimaryKeyRelatedField(many=True, queryset=Ingrediente.objects.all())
-    
-    class Meta:
-        model = Producto
-        fields = ['id','nombre', 'descripcion', 'categoria', 'ingredientes', 'precio', 'disponible']
+        fields = '__all__'
         
     def create(self, validated_data):
         ingredientes = validated_data.pop('ingredientes')
@@ -36,13 +30,6 @@ class productoAddSerializers(serializers.ModelSerializer):
         instance.save()
         instance.ingredientes.set(ingredientes)
         return instance
-        
-class productoSerializers(serializers.ModelSerializer):
-    ingredientes = IngredienteSerializer(many=True)
-    
-    class Meta:
-        model = Producto
-        fields = ['id','nombre', 'descripcion', 'categoria', 'ingredientes', 'precio', 'disponible']
 
 class InsumoSerializer(serializers.ModelSerializer):
     
@@ -74,6 +61,7 @@ class inventarioSerializers(serializers.ModelSerializer):
         if not self.instance and Inventario.objects.exists():
             raise serializers.ValidationError("Solo puede existir una instancia de Inventario.")
         return data
+
 #Pedido
 class DetallePedidoSerializer(serializers.ModelSerializer):
     producto = serializers.PrimaryKeyRelatedField(queryset=Producto.objects.all())
@@ -83,26 +71,40 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
         fields = ['producto', 'cantidad']
         
 class PedidoSerializer(serializers.ModelSerializer):
-    cliente = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    cliente = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False, allow_null=True)
+    cliente_db = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), required=False, allow_null=True)
     detalle_pedido = DetallePedidoSerializer(many=True) 
     total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
 
+    
     class Meta:
         model = Pedido
-        fields = ['id', 'cliente', 'fecha', 'detalle_pedido', 'total']
+        fields = ['id', 'cliente', 'cliente_db', 'fecha', 'detalle_pedido', 'total', 'estado']
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # Cambia el formato de la fecha en la representación
+        representation['fecha'] = instance.fecha.strftime("%d-%m-%y %H:%M")
+        return representation
+    
+    def validate(self, data):
+            cliente = data.get('cliente', None)
+            cliente_db = data.get('cliente_db', None)
 
-    def create(self, validated_data):
-        detalles_data = validated_data.pop('detalle_pedido')
-        pedido = Pedido.objects.create(**validated_data)
+            if cliente and cliente_db:
+                raise serializers.ValidationError("Un pedido solo puede tener un cliente o un cliente_db, no ambos.")
+            elif not cliente and not cliente_db:
+                raise serializers.ValidationError("Debe asignarse un cliente o cliente_db al pedido.")
 
-        # Create or link DetallePedido instances
-        for detalle_data in detalles_data:
-            DetallePedido.objects.create(pedido=pedido, **detalle_data)
-
-        return pedido
+            return data
 
 #Usuario
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id","name", "lastname", "cellphone", "email", "password", "role"]
+        fields = ["uuid","name", "lastname", "cellphone", "email", "password", "role"]
+        
+class ClienterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = '__all__'

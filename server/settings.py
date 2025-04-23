@@ -81,7 +81,7 @@ DATABASES = {
     )
 }
 
-AUTH_USER_MODEL = "users.User"
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
@@ -148,3 +148,5 @@ LOGGING = {
         },
     },
 }
+
+AUTH_USER_MODEL = 'users.User'  

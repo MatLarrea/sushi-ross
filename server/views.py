@@ -6,10 +6,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets, permissions
 from rest_framework.authtoken.models import Token
-from users.models import User
-from .serializers import UserSerializer, productoSerializers, IngredienteSerializer, productoUpdateSerializers, PedidoSerializer, productoAddSerializers, inventarioSerializers, InsumoSerializer
+from users.models import User, Cliente
+from .serializers import ClienterSerializer, UserSerializer, productoSerializers, IngredienteSerializer, PedidoSerializer, inventarioSerializers, InsumoSerializer
 from inventario.models import Producto, Ingrediente, Inventario, Insumo
-from pedidos.models import Pedido
+from pedidos.models import DetallePedido, Pedido
 from rest_framework.authentication import TokenAuthentication 
 
 def api_overview(request):
@@ -87,7 +87,7 @@ def addIngrediente(request):
 
 @api_view(['POST'])
 def addProducto(request):
-    serializer = productoAddSerializers(data=request.data)
+    serializer = productoSerializers(data=request.data)
     
     if serializer.is_valid():
         serializer.save()
@@ -106,9 +106,9 @@ def getIngredientes(request):
 
 @api_view(['GET'])
 def getProductos(request):
-    productos = Producto.objects.all() #obtener productos
+    productos = Producto.objects.filter(creado_por="SISTEMA") #obtener productos
     serializer = productoSerializers(productos, many=True)
-    return Response(serializer.data, status=status.HTTP_302_FOUND)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getProducto(request, nombre):
@@ -121,7 +121,7 @@ def getProducto(request, nombre):
 @api_view(['PATCH'])
 def updateProducto(request, nombre):
     producto = get_object_or_404(Producto, nombre=nombre)
-    serializer = productoUpdateSerializers(producto, data=request.data, partial=True)  # partial=True permite actualización parcial
+    serializer = productoSerializers(producto, data=request.data, partial=True)  # partial=True permite actualización parcial
 
     if serializer.is_valid():
         serializer.save()  # Guarda los cambios
@@ -157,39 +157,38 @@ def deleteIngrediente(request, nombre):
     return  Response({"mensaje": f"Ingrediente eliminado correctamente: {nombre}"})
     
 #Pedidos
-
-@api_view(['POST'])
-def addPedido(request):
-    serializer = PedidoSerializer(data=request.data)
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
     
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'mensaje':"Se ha generado el pedido", "pedido":serializer.data}, status=status.HTTP_201_CREATED)
+    def perform_create(self, serializer):
+        # Guarda el pedido y crea las relaciones inversas
+        validated_data = serializer.validated_data
+        detalles_data = validated_data.pop('detalle_pedido', [])
+        
+        # Crear el pedido
+        pedido = Pedido.objects.create(**validated_data)
+        
+        # Crear las instancias de detalle relacionadas
+        for detalle_data in detalles_data:
+            DetallePedido.objects.create(pedido=pedido, **detalle_data)
+        
+        serializer.instance = pedido
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_update(self, serializer):
+        pedido = serializer.instance  # Obtiene la instancia actual
+        
+        for attr, value in serializer.validated_data.items():
+            setattr(pedido, attr, value)  # Actualiza los campos
+        pedido.clean()  
+        pedido.save()
+        serializer.instance = pedido
 
-@api_view(['GET'])
-def getPedidos(request):
-    pedidos = Pedido.objects.all()  
-    serializer = PedidoSerializer(pedidos, many=True)  
-    return Response(serializer.data)
-
-# @api_view(['GET'])
-# def getPedidosByDate(request):
-#     pedidos = Pedido.objects.all(date)  
-#     serializer = PedidoSerializer(pedidos, many=True)  
-#     return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def deletePedido(request, id):
-    pedido = get_object_or_404(Producto, id=id)
-    if not pedido.delete():
-        return  Response({"mensaje": f"Error al eliminar {pedido}"})
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienterSerializer
+    permission_classes = [permissions.AllowAny]       
     
-    return  Response({"mensaje": f"Producto eliminado correctamente: {pedido}"})
-
-
 #Default viewsets
 class InventarioViewSet(viewsets.ModelViewSet):
     queryset = Inventario.objects.all()
