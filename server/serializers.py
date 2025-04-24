@@ -79,7 +79,7 @@ class PedidoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pedido
-        fields = ['id', 'cliente', 'cliente_db', 'fecha', 'detalle_pedido', 'total', 'estado']
+        fields = '__all__'
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
