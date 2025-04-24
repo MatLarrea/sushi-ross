@@ -50,7 +50,7 @@ class Insumo(models.Model):
     nombre = models.CharField(max_length=20, blank=False, unique=True)
     cantidad = models.IntegerField(validators=[MinValueValidator(0)])
     disponible = models.BooleanField(default=True)
-    unidad_medida = models.CharField(max_length=2, choices=[('KG', 'kg'),('LT', 'lt')])
+    unidad_medida = models.CharField(max_length=10, choices=[('KG', 'kg'),('LT', 'lt'), ('UNIDAD', 'unidad')])
     
     def __str__(self):
         return f'{self.nombre}: {self.cantidad}{self.unidad_medida}'
