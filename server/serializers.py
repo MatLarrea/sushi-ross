@@ -24,11 +24,17 @@ class productoSerializers(serializers.ModelSerializer):
         return producto
 
     def update(self, instance, validated_data):
-        ingredientes = validated_data.pop('ingredientes')
+        ingredientes = validated_data.pop('ingredientes', None) 
         instance.nombre = validated_data.get('nombre', instance.nombre)
         instance.descripcion = validated_data.get('descripcion', instance.descripcion)
+        instance.precio = validated_data.get('precio', instance.precio) 
+        instance.categoria = validated_data.get('categoria', instance.categoria) 
+        instance.disponible = validated_data.get('disponible', instance.disponible) 
+        instance.creado_por = validated_data.get('creado_por', instance.creado_por) 
+    
         instance.save()
-        instance.ingredientes.set(ingredientes)
+        if ingredientes is not None:
+            instance.ingredientes.set(ingredientes)
         return instance
 
 class InsumoSerializer(serializers.ModelSerializer):

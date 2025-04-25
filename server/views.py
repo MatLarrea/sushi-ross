@@ -111,16 +111,16 @@ def getProductos(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def getProducto(request, nombre):
+def getProducto(request, id):
     # Buscar el producto por el campo nombre
-    producto = get_object_or_404(Producto, nombre=nombre)
+    producto = get_object_or_404(Producto, id=id)
     serializer = productoSerializers(producto)
     return Response(serializer.data)
 
 
 @api_view(['PATCH'])
-def updateProducto(request, nombre):
-    producto = get_object_or_404(Producto, nombre=nombre)
+def updateProducto(request, id):
+    producto = get_object_or_404(Producto, id=id)
     serializer = productoSerializers(producto, data=request.data, partial=True)  # partial=True permite actualización parcial
 
     if serializer.is_valid():
@@ -141,12 +141,12 @@ def updateIngrediente(request, nombre):
     return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
-def deleteProducto(request, nombre):
-    producto = get_object_or_404(Producto, nombre=nombre)
+def deleteProducto(request, id):
+    producto = get_object_or_404(Producto, id=id)
     if not producto.delete():
-        return  Response({"mensaje": f"Error al eliminar {nombre}"})
+        return  Response({"mensaje": f"Error al eliminar {producto.nombre}"})
     
-    return  Response({"mensaje": f"Producto eliminado correctamente: {nombre}"})
+    return  Response({"mensaje": f"Producto eliminado correctamente: {producto.nombre}"})
 
 @api_view(['DELETE'])
 def deleteIngrediente(request, nombre):
