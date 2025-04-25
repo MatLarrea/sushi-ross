@@ -31,6 +31,8 @@ class Producto(models.Model):
                                             ('SUSHIBURGER', 'sushiburger'),
                                             ('EXTRA', 'extra'),
                                             ('GOHAN', 'gohan'),
+                                            ('TABLA', 'tabla'),
+                                            ('PROMO', 'promo'),
                                         ])
     disponible = models.BooleanField(default=True)
     creado_por = models.CharField(max_length=50, blank=False, null=False, choices=[
