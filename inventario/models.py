@@ -18,7 +18,7 @@ class Producto(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    nombre = models.CharField(max_length=100, unique=True)
+    nombre = models.CharField(max_length=100, unique=False)
     descripcion = models.TextField(max_length=200)
     ingredientes = models.ManyToManyField(Ingrediente, related_name='productos')
     precio = models.DecimalField(max_digits=10, decimal_places=2) 
