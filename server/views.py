@@ -101,7 +101,7 @@ def addProducto(request):
 def getIngredientes(request):
     ingredientes = Ingrediente.objects.all() #obtener productos
     serializer = IngredienteSerializer(ingredientes, many=True)
-    return Response(serializer.data, status=status.HTTP_302_FOUND)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
