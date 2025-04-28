@@ -81,7 +81,7 @@ class PedidoSerializer(serializers.ModelSerializer):
     cliente_db = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), required=False, allow_null=True)
     detalle_pedido = DetallePedidoSerializer(many=True) 
     total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-
+    direccion = serializers.CharField(required=False)
     
     class Meta:
         model = Pedido

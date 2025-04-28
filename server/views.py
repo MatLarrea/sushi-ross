@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework import viewsets, permissions
 from rest_framework.authtoken.models import Token
 from users.models import User, Cliente
-from .serializers import ClienterSerializer, UserSerializer, productoSerializers, IngredienteSerializer, PedidoSerializer, inventarioSerializers, InsumoSerializer
+from .serializers import ClienterSerializer, UserSerializer, productoSerializers, IngredienteSerializer, PedidoSerializer, inventarioSerializers, InsumoSerializer, UserSerializer
 from inventario.models import Producto, Ingrediente, Inventario, Insumo
 from pedidos.models import DetallePedido, Pedido
 from rest_framework.authentication import TokenAuthentication 
@@ -70,7 +70,11 @@ def register(request):
 def profile(request):
     return Response({"mensaje": "autenticado", "user": request.data}, status=status.HTTP_200_OK)
 
-
+@api_view(['GET'])
+def getUser(request, uuid):
+    user = get_object_or_404(User, uuid=uuid)
+    serializer =  UserSerializer(user)
+    return Response({"id":serializer.data['uuid'],"nombre":serializer.data['name'], "apellido":serializer.data['name']})
 
 # INVENTARIO
 @api_view(['POST'])
