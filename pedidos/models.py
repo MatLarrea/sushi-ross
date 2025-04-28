@@ -17,7 +17,7 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos', null=True, blank=True)
     cliente_db = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='pedidos', null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
-    direccion = models.TextField(max_length=200, default="RETIRO LOCAL")
+    direccion = models.TextField(max_length=200, default="RETIRO LOCAL", blank=True)
     estado = models.CharField(max_length=20,default="PREPARACION",
                                  choices=[
                                             ('PREPARACION', 'preparacion'),
