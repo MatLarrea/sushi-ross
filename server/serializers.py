@@ -81,11 +81,17 @@ class PedidoSerializer(serializers.ModelSerializer):
     cliente_db = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), required=False, allow_null=True)
     detalle_pedido = DetallePedidoSerializer(many=True) 
     total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-    direccion = serializers.CharField(required=False)
+    direccion = serializers.CharField(required=False, allow_blank=True)
     
     class Meta:
         model = Pedido
         fields = '__all__'
+    
+    def validate_direccion(self, value):
+        # Asignar un valor por defecto si está vacío
+        if value == "":
+            value = "RETIRO LOCAL"
+        return value 
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
