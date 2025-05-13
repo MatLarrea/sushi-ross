@@ -76,6 +76,16 @@ def getUser(request, uuid):
     serializer =  UserSerializer(user)
     return Response({"id":serializer.data['uuid'],"nombre":serializer.data['name'], "apellido":serializer.data['name']})
 
+@api_view(['GET'])
+def getDelivery(request):
+    user = User.objects.filter(role="DELIVERY")
+    serializer = UserSerializer(user, many=True)
+    
+    data = serializer.data
+    for user in data:
+        user.pop("password", None)
+    return Response(data, status=status.HTTP_200_OK)
+
 # INVENTARIO
 @api_view(['POST'])
 def addIngrediente(request):
