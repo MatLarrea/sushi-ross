@@ -1092,3 +1092,123 @@ Traceback (most recent call last):
                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^
 KeyError: 'fullname'
 "GET /users/getUser/15cc55db-6f02-4809-ba3c-16d8bcd0198d HTTP/1.1" 500 98988
+Internal Server Error: /users/getDelivery/
+Traceback (most recent call last):
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\server\views.py", line 81, in getDelivery
+    user = User.objects.all(role="DELIVERY")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseManager.all() got an unexpected keyword argument 'role'
+"GET //users/getDelivery/ HTTP/1.1" 500 96887
+Internal Server Error: /users/getDelivery/
+Traceback (most recent call last):
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\fields.py", line 437, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\fields.py", line 104, in get_attribute
+    instance = getattr(instance, attr)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QuerySet' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\server\views.py", line 83, in getDelivery
+    return Response(serializer.data, status=status.HTTP_200_OK)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\serializers.py", line 573, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\serializers.py", line 527, in to_representation
+    attribute = field.get_attribute(instance)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\fields.py", line 470, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `name` on serializer `UserSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `QuerySet` instance.
+Original exception text was: 'QuerySet' object has no attribute 'name'.
+"GET //users/getDelivery/ HTTP/1.1" 500 127229
+Internal Server Error: /users/getDelivery/
+Traceback (most recent call last):
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mlarr\OneDrive\Documentos\Proyectos\sushi-ross\server\views.py", line 83, in getDelivery
+    return Response({"nombre":serializer.data['name'],"apellido":serializer.data['lastname'],"email":serializer.data['email'],"telefono":serializer.data['cellphone']}, status=status.HTTP_200_OK)
+                              ~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+"GET //users/getDelivery/ HTTP/1.1" 500 98257
