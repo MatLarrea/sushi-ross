@@ -24,6 +24,7 @@ class Pedido(models.Model):
                                             ('REPARTO', 'reparto'),
                                             ('LISTO', 'listo'),
                                             ('ENTREGADO', 'entregado'),
+                                            ('CANCELADO', 'cancelado'),
                                         ])
     delivery = models.ForeignKey(
         User, 
