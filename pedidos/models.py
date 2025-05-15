@@ -44,6 +44,9 @@ class Pedido(models.Model):
     def __str__(self):
         return f"Pedido {self.id} - Cliente: {self.cliente.full_name}"
     
+    latitud = models.TextField(max_length=200, blank=True)
+    longitud = models.TextField(max_length=200, blank=True)
+    
     @property
     def total(self):
         return sum(
