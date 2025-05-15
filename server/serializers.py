@@ -82,6 +82,8 @@ class PedidoSerializer(serializers.ModelSerializer):
     detalle_pedido = DetallePedidoSerializer(many=True) 
     total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
     direccion = serializers.CharField(required=False, allow_blank=True)
+    latitud = serializers.CharField(required=False, allow_blank=True)
+    longitud = serializers.CharField(required=False, allow_blank=True)
     
     class Meta:
         model = Pedido
