@@ -11,6 +11,9 @@ from .serializers import ClienterSerializer, UserSerializer, productoSerializers
 from inventario.models import Producto, Ingrediente, Inventario, Insumo
 from pedidos.models import DetallePedido, Pedido
 from rest_framework.authentication import TokenAuthentication 
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import PedidoFilter
+from django.db.models import Sum, Count
 
 def api_overview(request):
     resolver = get_resolver()
@@ -169,12 +172,38 @@ def deleteIngrediente(request, nombre):
         return  Response({"mensaje": f"Error al eliminar {nombre}"})
     
     return  Response({"mensaje": f"Ingrediente eliminado correctamente: {nombre}"})
+
+#Reportes de ventas
+class ReporteVentasViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Pedido.objects.filter(estado="ENTREGADO")  # Solo pedidos entregados
+    serializer_class = PedidoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PedidoFilter
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())  # Filtramos pedidos según fecha
+
+        # Filtrar los detalles de los pedidos entregados
+        detalles_filtrados = DetallePedido.objects.filter(pedido__in=queryset)
+            
+        total_ventas = sum(float(pedido.total) for pedido in queryset)
+
+        productos_vendidos = detalles_filtrados.values('producto__nombre').annotate(total_vendido=Sum('cantidad'))
+
+        return Response({
+            'total_ventas': total_ventas,
+            'cantidad_pedidos': queryset.count(),
+            'productos_vendidos': list(productos_vendidos),
+        })
+
     
 #Pedidos
 class PedidoViewSet(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
-    
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PedidoFilter
+        
     def perform_create(self, serializer):
         # Guarda el pedido y crea las relaciones inversas
         validated_data = serializer.validated_data
