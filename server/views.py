@@ -37,7 +37,7 @@ def listar_cajeros_delivery(request):
     
     # Formatear los datos correctamente
     formatted_data = [
-        {"id": user["uuid"], "name": user["name"], "lastname": user["lastname"]}
+        {"id": user["uuid"], "name": user["name"], "lastname": user["lastname"], "role": user["role"] }
         for user in serializer.data
     ]
 
