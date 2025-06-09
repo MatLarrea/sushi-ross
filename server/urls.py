@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import addProducto, addIngrediente, api_overview, getDelivery, getProductos, getProducto, getIngredientes, getUser, login, profile, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, ProjectDefaultView, register
+from .views import addProducto, addIngrediente, api_overview, getDelivery, getProductos, getProducto, getIngredientes, getUser, login, profile, updateIngrediente, updateProducto, deleteProducto, deleteIngrediente, ProjectDefaultView, register, listar_cajeros_delivery
 from .routers import ruoter
 
 urlpatterns = [
@@ -35,6 +35,7 @@ urlpatterns = [
     path('users/login/', login, name='login'),
     path('users/profile/', profile, name='profile'),
     path('users/getUser/<uuid:uuid>', getUser, name='getUser'),
+    path('users/cajero_delivery/', listar_cajeros_delivery, name='cajero_delivery'),
     path('users/getDelivery/', getDelivery, name='getDelivery'),
     path('', include(ruoter.urls)),
     path('Endpoints/', api_overview, name='api-overview'),

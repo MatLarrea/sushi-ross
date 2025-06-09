@@ -29,6 +29,20 @@ def api_overview(request):
     return JsonResponse({"endpoints": urls})
 
 #Usuarios
+
+@api_view(['GET'])
+def listar_cajeros_delivery(request):
+    users = User.objects.filter(role__in=['CAJERO', 'DELIVERY'])
+    serializer = UserSerializer(users, many=True)
+    
+    # Formatear los datos correctamente
+    formatted_data = [
+        {"id": user["uuid"], "nombre": user["name"], "apellido": user["name"]}
+        for user in serializer.data
+    ]
+
+    return Response(formatted_data)
+
 @api_view(['POST'])
 def login(request):
     
