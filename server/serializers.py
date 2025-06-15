@@ -116,7 +116,7 @@ class PedidoSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["uuid","name", "lastname", "cellphone", "email", "password", "role"]
+        fields = ["uuid","name", "lastname", "cellphone", "email", "password", "role", "is_active"]
         
 class ClienterSerializer(serializers.ModelSerializer):
     class Meta:
