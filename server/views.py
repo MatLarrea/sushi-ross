@@ -30,28 +30,27 @@ def api_overview(request):
 
 #Usuarios
 @api_view(["POST"])
-@authentication_classes([TokenAuthentication])
 def modificar_user_is_active(request, uuid):
-    if request.user.is_staff:
-        user = get_object_or_404(User, uuid=uuid)
-        
-        # Crear el serializador con los datos nuevos
-        serializer = UserSerializer(user, data={"is_active": request.data["is_active"]}, partial=True)
-        
-        if serializer.is_valid():
-            if request.data["is_active"]:
-                estado = 'activo' 
-            else:
-                estado = 'inactivo'
-                
-            serializer.save()
-            return Response(
-                {"Mensaje": f"Estado de {user.full_name} actualizado a {estado}"},
-                status=status.HTTP_200_OK
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response({"Mensaje": "No tiene los permisos para realizar esta acción"}, status=status.HTTP_403_FORBIDDEN)
+    user = get_object_or_404(User, uuid=uuid)
+    
+    # Crear el serializador con los datos nuevos
+    serializer = UserSerializer(user, data={"is_active": request.data["is_active"]}, partial=True)
+        
+    if serializer.is_valid():
+        if request.data["is_active"]:
+            estado = 'activo' 
+        else:
+            estado = 'inactivo'
+            
+        serializer.save()
+        return Response(
+            {"Mensaje": f"Estado de {user.full_name} actualizado a {estado}"},
+            status=status.HTTP_200_OK
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
         
 
 @api_view(['GET'])
