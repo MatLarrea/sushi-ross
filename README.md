@@ -1,74 +1,16 @@
-URLS:
+#Entorno:
 
-INVENTARIO:
-los nombres de producto y ingredientes son únicos
+El backend se encuentra desplegado en render, este sitio toma la ultima actualización del repositorio asociado al código fuente de la aplicación en este caso la rama main 
+del repositorio sushi-ross.
 
-1) /Products/: listar productos
-2) /Products/<str:nombre: muestra el producto con ese nombre 
-3) /addProduct/: añadir producto
-4) /addIngredient/: añadir ingrediente
-5) /Ingredients/Update/<str:nombre>: actualizar ingrediente
-6) /Ingredients/: listar ingredientes
-7) /Products/Update/<str:nombre>/: actualizar producto
-8) /Products/Delete/<str:nombre>/: elimina el producto
-9) /Ingredients/Delete/<str:nombre>/: elimina el ingrediente
+El sitio ejecuta las instrucciones en el archivo build.sh que contiene:
 
-PEDIDOS:
+set -o errexit
 
-1)/Orders/: lista todos los pedidos en curso
-2)/Orders/Generate/: genera un pedido
-3)/Orders/Delete/<uuid:id>: elimina el pedido con el id 
+pip install -r requirements.txt
 
-EJEMPLO CREACION PRODUCTO:
+python manage.py collectstatic --no-input
+python manage.py migrate 
 
-{
-    "nombre": "suhiburger",
-    "descripcion": "burger de sushi",
-    "categoria": "SUSHIBURGER",
-    "precio": 6900,
-    "ingredientes": ["SAL", "CAM"]
-}
-
-RESPUESTA DEL SERVIDOR:
-
-{
-    "mensaje": "producto suhiburger añadido correctamente.",
-    "producto": {
-        "id": "c57dc5da-15d4-4943-8dcc-f03c93e07b09",
-        "nombre": "suhiburger",
-        "descripcion": "burger de sushi",
-        "categoria": "SUSHIBURGER",
-        "ingredientes": [
-            "CAM",
-            "SAL"
-        ],
-        "precio": "6900.00"
-    }
-}
-
-EJEMPLO GENERAR PEDIDO SI NO FUNCIONA ES POR QUE N:
-
-{
-    "cliente": "1",
-    "detalle_pedido": [
-        {
-            "producto": "63288023-bd46-4943-b7c0-7c7c4f5028de",
-            "cantidad": 3
-        }
-    ]
-}
-
-{
-    "mensaje": "Se ha generado el pedido",
-    "pedido": {
-        "id": "ac04f7cd-9064-4812-a029-3fe7effc2361",
-        "cliente": 1,
-        "fecha": "2025-04-07",
-        "detalle_pedido": [
-            {
-                "producto": "63288023-bd46-4943-b7c0-7c7c4f5028de",
-                "cantidad": 3
-            }
-        ]
-    }
-}
+comandos necesarios para iniciar el server a desplegar.
+dentro de el archivo requirements.txt podemos encontrar cada uno de las librerias utilizadas en este proyecto
