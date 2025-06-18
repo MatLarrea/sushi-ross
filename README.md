@@ -1,4 +1,4 @@
-#Entorno:
+Entorno:
 
 El backend se encuentra desplegado en render, este sitio toma la ultima actualización del repositorio asociado al código fuente de la aplicación en este caso la rama main 
 del repositorio sushi-ross.
